@@ -11,6 +11,7 @@ export * from './isFunction';
 export * from './isHTMLElement';
 export * from './isPlainObject';
 export * from './isPromise';
+export * from './KeyboardLayout';
 export * from './loop';
 export * from './noOp';
 export * from './now';

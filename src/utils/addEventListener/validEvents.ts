@@ -1,4 +1,4 @@
-export default {
+export const validEvents = {
 	abort:true
 ,	afterprint:true
 ,	animationend:true

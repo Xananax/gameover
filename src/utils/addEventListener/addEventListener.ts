@@ -1,7 +1,7 @@
 /// <reference path="./addEventListener.d.ts" />
 
 import {noOp} from '../noOp';
-import validEvents from './validEvents';
+import {validEvents} from './validEvents';
 import {envIsDev} from '../envIsDev';
 import {warn} from '../log'
 

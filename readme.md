@@ -51,6 +51,11 @@ or, if you don't want to run the tests prior:
 npm run compile
 ```
 
+Generate typings (not working very well at the moment):
+```sh
+npm run typings
+```
+
 Generate things to do:
 ```sh
 npm run todo

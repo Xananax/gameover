@@ -1,0 +1,1 @@
+export {getRandomValueFromArray} from './getRandomValueFromArray';

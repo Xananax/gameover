@@ -1,0 +1,11 @@
+.game-button{
+	float:left;
+	button{
+		&:extend(.button all);
+		&:extend(.button-primary all);
+		&:extend(.button-circle all);
+	};
+	&.is-on button:extend(.button-primary:active){};
+}
+
+@import './game-button';

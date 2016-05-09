@@ -1,0 +1,1 @@
+export {defineProperty} from './defineProperty';

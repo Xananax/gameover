@@ -1,0 +1,15 @@
+{
+	"files.exclude": {
+		"**/*.map": true
+	,	"tsconfig.json":true
+	,	"karma.conf.js":true
+	,	"webpack.config.js":true
+	,	".babelrc":true
+	,	"node_modules":true
+	,	".vscode":true
+	,	"*.sublime-*":true
+	,	"typings*":false
+	,	".gitignore":true
+	,	".npmignore":true
+	}
+}

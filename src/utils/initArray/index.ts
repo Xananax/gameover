@@ -1,0 +1,1 @@
+export {initArray} from './initArray';

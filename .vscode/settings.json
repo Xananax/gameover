@@ -8,7 +8,8 @@
 	,	"node_modules":true
 	,	".vscode":true
 	,	"*.sublime-*":true
-	,	"typings*":false
+	,	"typings*":true
+	,	"typings.json":true
 	,	".gitignore":true
 	,	".npmignore":true
 	}

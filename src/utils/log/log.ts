@@ -8,11 +8,11 @@ function printf(sentence:string,args?:Array<any>):string{
 	return sentence.replace(/%s/g,()=>((i>=length)?args[i]:args[i++]));
 }
 
-function noOp(sentence:string|Error,...args){}
+function fakeLog(sentence:string|Error,...args){}
 
-let warn = noOp;
-let log = noOp;
-let error = noOp;
+let warn = fakeLog;
+let log = fakeLog;
+let error = fakeLog;
 
 function makeLogFunction(logMethod:string,doThrow:boolean){
 	return function(sentence:string|Error,...args){

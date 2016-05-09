@@ -1,4 +1,11 @@
-import {envIsDev} from '../envIsDev';
+/// <reference path="./log.d.ts" />
+
+import {
+	envIsDev
+} from '../envIsDev';
+import {
+	noOp
+} from '../noOp';
 
 function printf(sentence:string,args?:Array<any>):string{
 	if(!args){return sentence;}
@@ -8,14 +15,12 @@ function printf(sentence:string,args?:Array<any>):string{
 	return sentence.replace(/%s/g,()=>((i>=length)?args[i]:args[i++]));
 }
 
-function fakeLog(sentence:string|Error,...args){}
-
-let warn = fakeLog;
-let log = fakeLog;
-let error = fakeLog;
+let warn:LogFunction = <LogFunction>noOp;
+let log:LogFunction = <LogFunction>noOp;
+let error:LogFunction = <LogFunction>noOp;
 
 function makeLogFunction(logMethod:string,doThrow:boolean){
-	return function(sentence:string|Error,...args){
+	return function(sentence:string|Error,...args):void{
 		let message:string;
 		let err:Error;
 		if(sentence instanceof Error){

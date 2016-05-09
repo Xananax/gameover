@@ -9,8 +9,11 @@
     "compile": "NODE_ENV=production webpack",
     "build":"npm run todo && npm run test-integration && npm run compile",
     "start": "webpack-dev-server --hot --progress --colors --content-base public/",
-    "todo": "./generate-todo.sh"
+    "todo": "./generate-todo.sh",
+    "typings":"rm -f index.d.ts && tsc --module amd --declaration --outFile _module.js && npm run typings-clean && mv _module.d.ts index.d.ts",
+    "typings-clean":"rm -rf _module.js _module.js.map"
   },
+  "typings":"./index.d.ts",
   "author": "xananax",
   "license": "MIT",
   "devDependencies": {

@@ -20,6 +20,29 @@ export function Ticker(options?:TickerOptions):Ticker{
 	return instance;
 }
 
+const timedDispatchers:TickerTimedDispatchers = {};
+
+function getEventDispatcherForMs(max:number,update:SimpleEventDispatcher):SimpleEventDispatcher{
+	if(max <= 0){max = 1;}
+	if(max==1){return update;}
+	if(!timedDispatchers[max]){
+		let ms = 0;
+		let count = 0;
+		const dispatcher = SimpleEventDispatcher();
+		function tick(delta){
+			ms+=delta;
+			if(ms>=max){
+				ms = 0;
+				count++;
+				dispatcher.dispatchEvent(count);
+			}
+		}
+		update.addEventListener(tick);
+		timedDispatchers[max] = dispatcher;
+	}	
+	return timedDispatchers[max];
+}
+
 function createTicker(_options?:TickerOptions):Ticker{
 	
 	const opts = Object.assign({},defaults,_options);
@@ -34,7 +57,6 @@ function createTicker(_options?:TickerOptions):Ticker{
 	
 	const render = SimpleEventDispatcher();
 	const update = SimpleEventDispatcher();
-	const timedDispatchers:TickerTimedDispatchers = {};
 	
 	calculateSlow();
 	
@@ -71,25 +93,10 @@ function createTicker(_options?:TickerOptions):Ticker{
 	function onTick(max:number):SimpleEventDispatcher;
 	function onTick(max:number,listener:EventListener):()=>boolean
 	function onTick(max:number,listener?:EventListener):any{
-		if(!timedDispatchers[max]){
-			let ms = 0;
-			let count = 0;
-			const dispatcher = SimpleEventDispatcher();
-			function tick(delta){
-				ms+=delta;
-				if(ms>=max){
-					ms = 0;
-					count++;
-					dispatcher.dispatchEvent(count);
-				}
-			}
-			update.addEventListener(tick);
-			timedDispatchers[max] = dispatcher;
-		}
 		if(!listener){
-			return <SimpleEventDispatcher>timedDispatchers[max];	
+			return getEventDispatcherForMs(max,update);	
 		}
-		return timedDispatchers[max].addEventListener(listener);
+		return getEventDispatcherForMs(max,update).addEventListener(listener);
 	}
 	
 	function frame():void{

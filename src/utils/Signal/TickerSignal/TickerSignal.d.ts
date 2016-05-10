@@ -1,15 +1,15 @@
 /// <reference path="../../Ticker/Ticker.d.ts" />
 /// <reference path="../Signal/Signal.d.ts" />
 
+interface TickerSignalSignal extends Signal<number,number>{}
 
-interface TickerSignal{
-	render:Signal<number,number>;
-	update:Signal<number,number>;
-	options(opts:TickerOptions):void;
-	start():TickerStart;
-	stop():TickerStop;
-	isPaused():boolean;
-	clear():void
-	slow(n?:number):number
-	fps(n?:number):number
+interface TickerSignalTimedSignals{
+	[name:string] : TickerSignalSignal;
+}
+
+interface TickerSignal extends TickerBase{
+	render:TickerSignalSignal;
+	update:TickerSignalSignal;
+	tick(max:number):TickerSignalSignal;
+	tick(max:number,listener:EventListener):()=>boolean;
 }

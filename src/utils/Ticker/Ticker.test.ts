@@ -24,4 +24,9 @@ describe.skip('Ticker',()=>{
 			
 		});
 	});
+	describe('ticker.tick',()=>{
+		it('should be called at every tick',()=>{
+			
+		});
+	});
 });

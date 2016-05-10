@@ -34,7 +34,7 @@ function createTicker(_options?:TickerOptions):Ticker{
 	
 	const render = SimpleEventDispatcher();
 	const update = SimpleEventDispatcher();
-	const timedDispatchers = {};
+	const timedDispatchers:TickerTimedDispatchers = {};
 	
 	calculateSlow();
 	
@@ -68,6 +68,30 @@ function createTicker(_options?:TickerOptions):Ticker{
 		return opts.slow;
 	}
 	
+	function onTick(max:number):SimpleEventDispatcher;
+	function onTick(max:number,listener:EventListener):()=>boolean
+	function onTick(max:number,listener?:EventListener):any{
+		if(!timedDispatchers[max]){
+			let ms = 0;
+			let count = 0;
+			const dispatcher = SimpleEventDispatcher();
+			function tick(delta){
+				ms+=delta;
+				if(ms>=max){
+					ms = 0;
+					count++;
+					dispatcher.dispatchEvent(count);
+				}
+			}
+			update.addEventListener(tick);
+			timedDispatchers[max] = dispatcher;
+		}
+		if(!listener){
+			return <SimpleEventDispatcher>timedDispatchers[max];	
+		}
+		return timedDispatchers[max].addEventListener(listener);
+	}
+	
 	function frame():void{
 		if(paused){return;}
 		requestAnimationFrame(frame);
@@ -97,6 +121,10 @@ function createTicker(_options?:TickerOptions):Ticker{
 	function clear(){
 		render.dispose();
 		update.dispose();
+		for(let n in timedDispatchers){
+			timedDispatchers[n].dispose();
+			delete timedDispatchers[n];
+		}
 	}
 	
 	function isPaused():boolean{
@@ -106,6 +134,7 @@ function createTicker(_options?:TickerOptions):Ticker{
 	const ticker:Ticker = {
 		render:render.addEventListener
 	,	update:update.addEventListener
+	,	tick:onTick
 	,	options
 	,	start
 	,	stop

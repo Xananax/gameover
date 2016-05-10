@@ -1,0 +1,3 @@
+interface ClickableSignal extends InputSignal{
+	
+}

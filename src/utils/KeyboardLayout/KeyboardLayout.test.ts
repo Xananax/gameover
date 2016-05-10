@@ -3,7 +3,7 @@ import {
 } from './KeyboardLayout';
 import {expect} from 'chai';
 
-describe.only('KeyboardLayout',()=>{
+describe('KeyboardLayout',()=>{
 	describe('KeyboardLayout()=>layout',()=>{
 		it('should return a function',()=>{
 			const keyCode = KeyboardLayout();

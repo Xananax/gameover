@@ -14,7 +14,7 @@ export function KeyboardSignal(keyMap:KeyboardSignalKeysMap):KeyboardHandlerSign
 		keyMap[keyName].forEach((keyCode:number)=>{
 			codesEnum[keyCode] = keyName;
 		});
-		keysEnum[keyName] = InputSignal(keyName);
+		keysEnum[keyName] = InputSignal(false,keyName);
 	});
 	
 	const getSignalByKeyCode = function(keyCode:number):KeyboardSignal{

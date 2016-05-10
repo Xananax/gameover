@@ -3,11 +3,11 @@
 import {Signal,BREAK,SKIP} from '../Signal';
 import {now} from '../../now';
 
-export const InputSignal:SignalFactory<InputSignal> = function(on:boolean=false,operation?:SignalProcessorOrArray,parentSignal?:Signal<any,any>,factory?:SignalFactory<any>):InputSignal{
+export const InputSignal = function(on:boolean=false,name:string='',operation?:SignalProcessorOrArray):InputSignal{
 	const value:InputSignalValue = {
 		name
-	,	start:0
-	,	stop:now()
+	,	start:(on && now()) || 0
+	,	stop:(!on && now()) || 0
 	,	on:on
 	};
 	function filter(on){
@@ -30,7 +30,7 @@ export const InputSignal:SignalFactory<InputSignal> = function(on:boolean=false,
 		value.on = on;
 		return value;
 	}
-	const s = Signal(value,null,parentSignal,factory);
+	const s = Signal(value,null);
 	s.processors.push(filter,transform);
 	if(operation){
 		if(Array.isArray(operation)){

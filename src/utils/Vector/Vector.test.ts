@@ -540,10 +540,6 @@ describe('chainable instance methods', function () {
 			expect(ret).to.equal(vec);
 		});
 
-		it.skip('should?', function () {
-			expect(vec).to.have.property('x');
-			expect(vec).to.have.property('y');
-		});
 	});
 
 	describe('#limit()', function () {
@@ -969,7 +965,7 @@ describe('regular instance methods', function () {
 		});
 	});
 
-	describe.skip('#distance()', function () {
+	describe('#distance()', function () {
 		var vec1, vec2, ret;
 
 		before(function () {
@@ -979,7 +975,7 @@ describe('regular instance methods', function () {
 		});
 
 		it('should return the euclidean distance between 2 vectors', function () {
-			expect(ret).to.equal(-21);
+			expect(ret).to.equal(100);
 		});
 	});
 

@@ -5,8 +5,6 @@
 ## Tests
 
  - utils/objectEntries
- - utils/Vector
- - utils/Vector
  - utils/EventDispatcher
  - utils/Signal/DomSignal
  - utils/Signal/KeyboardSignal

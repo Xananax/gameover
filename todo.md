@@ -5,6 +5,8 @@
 ## Tests
 
  - utils/objectEntries
+ - utils/Vector
+ - utils/Vector
  - utils/EventDispatcher
  - utils/Signal/DomSignal
  - utils/Signal/KeyboardSignal
@@ -21,6 +23,7 @@
 ## Readmes
 
  - utils
+ - utils/Vector
  - utils/KeyboardLayout
  - utils/Signal/DomSignal
  - utils/Signal/KeyboardSignal

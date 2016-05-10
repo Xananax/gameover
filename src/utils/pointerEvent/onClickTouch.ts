@@ -4,14 +4,14 @@ import {addEventListener} from '../addEventListener';
 
 function common(names:string[],obj:Node,fn?:EventListener,useCapture?:boolean):any{
 	
-	const removeClick = addEventListener(obj,names[0],fn,useCapture);
-	const removeTouch = addEventListener(obj,names[1],fn,useCapture);
-	const removePointer = addEventListener(obj,names[2],fn,useCapture);
+	const removeClick = (names[0] && addEventListener(obj,names[0],fn,useCapture));
+	const removeTouch = (name[1] && addEventListener(obj,names[1],fn,useCapture));
+	const removePointer = (name[2] && addEventListener(obj,names[2],fn,useCapture));
 	
 	const remove = function(){
-		removeClick();
-		removeTouch();
-		removePointer();
+		removeClick && removeClick();
+		removeTouch && removeTouch();
+		removePointer && removePointer();
 	}
 	
 	return remove;
@@ -81,13 +81,20 @@ export const onClick:iCommonClick = function(obj:Node,fn?:EventListener,options?
 		}
 		reset();
 	}
+	function onClick(evt){
+		onDown(evt);
+		onUp(evt);
+	}
 	
-	const removeDown = onMouseDown(obj,onDown,useCapture);
-	const removeUp = onMouseUp(obj,onUp,useCapture);
+	
+	const removeDown = common([null,'touchstart','pointerdown'],obj,onDown,useCapture); 
+	const removeUp = common([null,'touchend','pointerup'],obj,onUp,useCapture)
+	const removeClick = addEventListener(obj,'click',onClick,useCapture);
 	
 	const remove = function(){
 		removeDown();
 		removeUp();
+		removeClick();
 	}
 	
 }
@@ -102,6 +109,10 @@ export const onDoubleClick:iCommonDoubleClick = function(obj:Node,fn?:EventListe
 	 
 	let clicks = 0;
 	let timer;
+	const done = (evt) => {
+		reset();
+		fn(evt);
+	}
 	const reset = () => {
 		clicks = 0;
 		clearTimeout(timer);
@@ -109,8 +120,7 @@ export const onDoubleClick:iCommonDoubleClick = function(obj:Node,fn?:EventListe
 	const inc = (evt) => {
 		clicks++;
 		if(clicks>=max){
-			reset();
-			fn(evt);
+			done(evt);
 		}
 	}
 	const trigger:EventListener = function(evt){
@@ -118,6 +128,11 @@ export const onDoubleClick:iCommonDoubleClick = function(obj:Node,fn?:EventListe
 		setTimeout(reset,200);
 	}
 	
-	const remove = onClick(obj,fn,options);
+	const removeSimulatedClick = onClick(obj,trigger,options);
+	const removeDoubleClick = addEventListener(obj,'dblclick',done,useCapture);
+	const remove = function(){
+		removeSimulatedClick();
+		removeDoubleClick();
+	}
 	return remove;
 }

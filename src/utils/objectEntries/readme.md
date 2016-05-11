@@ -6,5 +6,6 @@ returns a valid iterator for a given object. This allows the object to be used i
 
 ```js
 for(let [k,v] of objectEntries(obj){
+	// do something with k and v;
 }
 ```

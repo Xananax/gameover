@@ -28,6 +28,7 @@ export const throttle = <iThrottler>function(fn:Function, interval?:number):Func
 		}
 	};
 
+	if(arguments.length==1){return throttle.bind(null,fn);}
 	return throttled;
 }
 

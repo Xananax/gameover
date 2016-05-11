@@ -20,7 +20,6 @@
 
  - utils
  - utils/Vector
- - utils/KeyboardLayout
  - utils/Signal/DomSignal
  - utils/Signal/KeyboardSignal
  - utils/Signal/TickerSignal

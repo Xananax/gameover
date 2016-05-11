@@ -2,9 +2,9 @@
 
 ```js
 EventDispatcher{
-	addEventListener(type:string,listener:EventListener,useCapture?:boolean): void;
+	addEventListener(type:string,listener:EventListener):removeEvent()=>boolean
 	dispatchEvent(evt:Event):boolean;
-	removeEventListener(type:string,listener:EventListener,useCapture?:boolean):void;
+	removeEventListener(type:string,listener:EventListener):boolean;
 }
 ```
 	

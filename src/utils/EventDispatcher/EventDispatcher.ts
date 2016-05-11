@@ -1,24 +1,35 @@
+/// <reference path="./EventDispatcher.d.ts" />
+
 import {SimpleEventDispatcher} from '../SimpleEventDispatcher'; 
 
-export class EventDispatcher implements EventTarget{
-	
-	protected eventsListeners:{[key:string]:SimpleEventDispatcher} = {}
-	
-	public addEventListener(type:string,listener:EventListenerOrEventListenerObject):void{
-		if(!this.eventsListeners[type]){
-			this.eventsListeners[type] = SimpleEventDispatcher();	
-		}
-		this.eventsListeners[type].addEventListener(listener);
+function addEventListener(eventsListeners:EventsHandlers,type:string,listener:EventListenerOrEventListenerObject):()=>boolean{
+	if(!eventsListeners[type]){
+		eventsListeners[type] = SimpleEventDispatcher();	
 	}
-	
-	public removeEventListener(type:string,listener:EventListenerOrEventListenerObject):void{
-		if(!this.eventsListeners[type] || !this.eventsListeners[type].size()){return;}
-		this.eventsListeners[type].removeEventListener(listener);
-	}
-	
-	public dispatchEvent(evt):boolean{
-		const {type} = evt;
-		if(!this.eventsListeners[type] || !this.eventsListeners[type].size()){return false;}
-		return this.eventsListeners[type].dispatchEvent(evt);
-	}
+	return eventsListeners[type].addEventListener(listener);
 }
+
+function removeEventListener(eventsListeners:EventsHandlers,type:string,listener:EventListenerOrEventListenerObject):boolean{
+	if(!eventsListeners[type] || !eventsListeners[type].size()){return;}
+	return eventsListeners[type].removeEventListener(listener);
+}
+
+function dispatchEvent(eventsListeners:EventsHandlers,evt?:any):boolean{
+	const {type} = evt;
+	if(!eventsListeners[type] || !eventsListeners[type].size()){return false;}
+	return eventsListeners[type].dispatchEvent(evt);
+}
+
+export const EventDispatcher:EventDispatcherFactory = function(target?:any):MultiEventDispatcher{
+	if(!target){target = Object.create(null);}
+	const eventsListeners:EventsHandlers = {}
+	return Object.assign(target,{
+		addEventListener:addEventListener.bind(null,eventsListeners)
+	,	removeEventListener:removeEventListener.bind(null,eventsListeners)
+	,	dispatchEvent:dispatchEvent.bind(null,eventsListeners)
+	});
+}
+
+
+	
+

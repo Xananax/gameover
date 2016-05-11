@@ -4,21 +4,24 @@ import {InputSignal} from '../InputSignal';
 import {onMouseDown,onMouseUp} from '../../pointerEvent';
 import {addClass,removeClass} from '../../class';
 
-function onDown(s:InputSignal,evt:MouseEvent){
-	const el = <HTMLElement>evt.target;
-	addClass(el,'is-on');
+const clsRemove = removeClass('is-on');
+const clsAdd = addClass('is-on');
+
+function onDown(s:InputSignal,remove:Function,evt:MouseEvent){
+	remove();
 	s(true);
 }
 
-function onUp(s:InputSignal,evt:MouseEvent){
-	const el = <HTMLElement>evt.target;
-	removeClass(el,'is-on');
+function onUp(s:InputSignal,add:Function,evt:MouseEvent){
+	add();
 	s(false);
 }
 
 function addNode(s:InputSignal,onUp:EventListener,onDown:EventListener,node:HTMLElement){
-	s.onDispose.push(onMouseDown(node,onDown,false));
-	s.onDispose.push(onMouseUp(node,onUp,false));
+	const add = clsAdd(node);
+	const remove = clsRemove(node);
+	s.onDispose.push(onMouseDown(node,onDown.bind(null,remove),false));
+	s.onDispose.push(onMouseUp(node,onUp.bind(null,add),false));
 }
 
 export function ClickableSignal(node:HTMLElement|HTMLElement[],startValue:boolean=false):ClickableSignal{
